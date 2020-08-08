@@ -1,0 +1,33 @@
+.iconStyle{
+    font-size: 30px;
+    margin-right: 7px!important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.itemStyle {
+    display: inline-block;
+    vertical-align: middle;
+    width: 700px;
+}
+
+.titleStyle {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #0860a6!important;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.subTitleStyle {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    font-size: .9rem;
+    margin: 0;
+}

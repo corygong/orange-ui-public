@@ -13,6 +13,7 @@ import {Layout} from 'antd';
 import Home from './pages/Home';
 import Statistics from './pages/Statistics';
 import Dashboard from './pages/Dashboard';
+import Search from './pages/Search';
 
 
 
@@ -23,8 +24,9 @@ const PrimaryLayout = props => (
         <BrowserRouter>
           <AppHeader/>
             <Route exact path={'/'} component={Home} />
-            <Route exact path={'/statistics'} component={Statistics} />
+            <Route path={'/statistics/:stat_name'} component={Statistics} />
             <Route exact path={'/dashboard'} component={Dashboard} />
+            <Route path="/search" component={Search}/>
           <AppFooter/>
         </BrowserRouter>
        

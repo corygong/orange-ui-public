@@ -6,6 +6,8 @@ const {Content} = Layout;
 
 export default function Statistics(props) {
 
+    const stat_name = props.match.params.stat_name;
+
 
     return (
 
