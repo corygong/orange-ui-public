@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu ,Avatar, Dropdown} from 'antd';
 import { Link } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
+
 const { Header } = Layout;
 
 
@@ -31,7 +33,15 @@ export default function AppHeader() {
                 <Menu.Item key='4'>
                     <Link style={{color:'#fff'}} to ='/dashboard'>Dashboard</Link>
                 </Menu.Item>
+               
+
             </Menu>
+
+            <div style={{float:"right", minWidth:'283px', marginLeft:'auto'}}>
+                <Avatar  icon={<UserOutlined />} />
+            </div>
+           
+            
         </Header>
     )
 

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {Layout ,Breadcrumb, Input, Button, Form} from 'antd'
 import './Home.css';
+
+import { useHistory } from 'react-router-dom';
+
 const {Content} = Layout;
 
 const { Search } = Input;
@@ -25,12 +28,21 @@ export default function Home(props) {
         }
       : null;
 
-  const buttonItemLayout =
-    formLayout === 'horizontal'
-      ? {
-          wrapperCol: { span: 14, offset: 4 },
-        }
-      : null;
+    const buttonItemLayout =
+        formLayout === 'horizontal'
+        ? {
+            wrapperCol: { span: 14, offset: 4 },
+            }
+        : null;
+
+
+
+    let history = useHistory();
+    const onSearch = (value) => {
+        console.log(value);
+        history.push('/search?q=' + value);
+
+    }
     return (
 
         <Content style={{ padding:'0 50px' }}>
@@ -60,7 +72,7 @@ export default function Home(props) {
                 placeholder="input search text"
                 enterButton="Search"
                 size="large"
-                onSearch={value => console.log(value)}
+                onSearch={value => onSearch(value)}
                 />
                 
             </div>

@@ -1,0 +1,26 @@
+{
+    "app.dashboard.basic-metric": "基本指标",
+    "app.dashboard.hotel-analysis": "酒店分析",
+    "app.dashboard.hotel-analysis-hotelName": "酒店分析(酒店名)",
+    "app.dashboard.hotel-analysis-zone": "酒店分析(商圈)",
+    "app.dashboard.hotel-analysis-district": "酒店分析(区)",
+    "app.dashboard.hotel-analysis-group_cn": "酒店分析(品牌)",
+    "app.dashboard.total-hotel-num": "总酒店数",
+    "app.dashboard.total-room-num": "总房间数",
+    "app.dashboard.adr": "日度均价(ADR)",
+    "app.dashboard.vancancy": "空置率",
+    "app.dashboard.ravpar": "RavPar",
+    "app.dashboard.yoy-adr": "同比ADR趋势",
+    "app.dashboard.chain-adr": "环比ADR趋势",
+    "app.dashboard.yoy-hotel-num": "同比酒店数趋势",
+    "app.dashboard.yoy-room-num": "同比房间数趋势",
+
+    "app.statistics.chart-type":"图表类型",
+    "app.statistics.print":"打印",
+    "app.statistics.citation":"引用",
+    "app.statistics.download":"下载",
+    "app.statistics.setting":"设置",
+    "app.statistics.description":"描述",
+    "app.statistics.source":"数据源",
+    "app.statistics.source-link":"数据源链接"
+}
