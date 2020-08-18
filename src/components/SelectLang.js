@@ -1,18 +1,23 @@
 import React, { PureComponent } from 'react';
 
-import { Menu, DropDown } from 'antd';
+import { Menu, Dropdown } from 'antd';
 
 
-import {GlobalOutlined} from '@ant-design/icons';
+import {TranslationOutlined} from '@ant-design/icons';
 
-import intl from 'react-intl-universal';
+
+import { useLocation } from 'react-router-dom';
+
 
 import http from "axios";
+import styles  from './SelectLang.module.css';
 
 
 
-require('intl/locale-data/jsonp/en.js');
-require('intl/locale-data/jsonp/zh.js');
+import {injectIntl} from 'react-intl';
+
+
+
 
 
 
@@ -27,7 +32,7 @@ const SUPPOER_LOCALES = [
     }
   ];
 
-export default class SelectLang extends PureComponent {
+class SelectLang extends PureComponent {
 
     // state = { initDone: false };
     componentDidMount() {
@@ -35,42 +40,19 @@ export default class SelectLang extends PureComponent {
       }
 
     loadLocales() {
-        let currentLocale = intl.determineLocale({
-            urlLocaleKey: "lang",
-            cookieLocaleKey: "lang"
-        });
-        if (!_.find(SUPPOER_LOCALES, { value: currentLocale })) {
-            currentLocale = "zh-CN";
-        }
-
-        http
-        .get(`locales/${currentLocale}.json`)
-        .then(res => {
-            console.log("App locale data", res.data);
-            // init method will load CLDR locale data according to currentLocale
-            return intl.init({
-                currentLocale,
-                locales: {
-                    [currentLocale]: res.data
-                }
-            });
-        })
-        .then(() => {
-            // After loading CLDR locale data, start to render
-            // this.setState({ initDone: true });
-        });
+        // return import('locales/zh-CN.json')
     }
     changeLang = ({ key }) => {
-        location.search = `?lang=${key}}`;
+        switch (key) {
+            // case 'English':
+            //   return import('../locales/en-US.json');
+            // default:
+            //   return import('../locales/zh-CN.json');
+          }
+
+        
     };
     render() {
-        // const { className } = this.props;
-        // const selectedLang = getLocale();
-        // const locales = ['zh-CN', 'en-US' ];
-        // const languageLabels = {
-        //   'zh-CN': '简体中文',
-        //   'en-US': 'English'
-        // };
         const langMenu = (
           <Menu onClick={this.changeLang}>
 
@@ -81,12 +63,15 @@ export default class SelectLang extends PureComponent {
           </Menu>
         );
         return (
-          <DropDown overlay={langMenu} placement="bottomRight">
-            <span className={classNames(styles.dropDown, className)}>
-                <GlobalOutlined />
+          <Dropdown overlay={langMenu} placement="bottomRight">
+            <span>
+                <TranslationOutlined className={styles.iconstyle}/>
               {/* <Icon type="global" title={formatMessage({ id: 'navBar.lang' })} /> */}
             </span>
-          </DropDown>
+          </Dropdown>
         );
-      }
     }
+}
+
+
+export default injectIntl(SelectLang);

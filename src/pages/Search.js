@@ -45,7 +45,7 @@ export default function Search(props) {
 
 
 
-    const host = "http://localhost:3000/api/statistics_detail_idx"
+    const host = "http://localhost:3000/search/statistics_detail_idx"
     const searchkit = new SearchkitManager(host)
 
 

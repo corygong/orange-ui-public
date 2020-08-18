@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Layout, Menu ,Avatar, Dropdown} from 'antd';
 import { Link } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, TranslationOutlined } from '@ant-design/icons';
 
+import styles  from './AppHeader.module.css';
+
+
+import SelectLang from '../components/SelectLang';
 const { Header } = Layout;
 
 
@@ -10,7 +14,7 @@ const { Header } = Layout;
 export default function AppHeader() {
 
     return (
-        <Header style={{background:'#0f2741'}}>
+        <Header style={{background:'#0f2741', display:"flex"}}>
             <div style={{float:'left' }}>
                 <Link to='/'>
                 <h2 style={{color:'#fff'}}>
@@ -37,9 +41,16 @@ export default function AppHeader() {
 
             </Menu>
 
-            <div style={{float:"right", minWidth:'283px', marginLeft:'auto'}}>
-                <Avatar  icon={<UserOutlined />} />
+            <div style={{float:"right",  marginLeft:'auto'}}>
+                <UserOutlined className={styles.iconstyle} />
+
+
+                <SelectLang/>
+
+                
             </div>
+
+            
            
             
         </Header>

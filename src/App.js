@@ -9,9 +9,7 @@ import AppFooter from './layouts/AppFooter';
 
 
 
-// import intl from 'react-intl-universal';
-// require('intl/locale-data/jsonp/en.js');
-// require('intl/locale-data/jsonp/zh.js');
+import { IntlProvider } from 'react-intl';
 
 
 import Home from './pages/Home';
@@ -24,19 +22,22 @@ import NotFound from './components/NotFound';
 
 
 
+
+
 const PrimaryLayout = props => (
     <div style={{background:'#0f2741'}}> 
 
-        
-        <BrowserRouter>
-          <AppHeader/>
-            <Route exact path={'/'} component={Home} />
-            <Route path={'/statistics'} component={ NotFound}/>
-            <Route path={'/statistics/:stat_name'} component={Statistics} />
-            <Route exact path={'/dashboard'} component={Dashboard} />
-            <Route path="/search" component={Search}/>
-          <AppFooter/>
-        </BrowserRouter>
+        <IntlProvider>
+          <BrowserRouter>
+            <AppHeader/>
+              <Route exact path={'/'} component={Home} />
+              {/* <Route path={'/statistics'} component={ NotFound}/> */}
+              <Route path={'/statistics/:stat_name'} component={Statistics} />
+              <Route exact path={'/dashboard'} component={Dashboard} />
+              <Route path="/search" component={Search}/>
+            <AppFooter/>
+          </BrowserRouter>
+        </IntlProvider>
        
         
     </div>
