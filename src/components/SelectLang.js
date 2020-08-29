@@ -40,7 +40,9 @@ class SelectLang extends PureComponent {
       }
 
     loadLocales() {
-        // return import('locales/zh-CN.json')
+
+        require('../locales/zh-CN.json');
+        // return import('../locales/zh-CN.json')
     }
     changeLang = ({ key }) => {
         switch (key) {

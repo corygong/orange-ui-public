@@ -44,6 +44,7 @@ const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
                                     // }
                                 }
                             }],
+                          
                             chart: {
                                 type: 'column'
                             },

@@ -24,17 +24,20 @@ import NotFound from './components/NotFound';
 
 
 
+const zh = import('./locales/zh-CN.json');
+
 const PrimaryLayout = props => (
     <div style={{background:'#0f2741'}}> 
 
-        <IntlProvider>
+        <IntlProvider locale='en' defaultLocale="en" messages={zh}
+>
           <BrowserRouter>
             <AppHeader/>
               <Route exact path={'/'} component={Home} />
               {/* <Route path={'/statistics'} component={ NotFound}/> */}
               <Route path={'/statistics/:stat_name'} component={Statistics} />
               <Route exact path={'/dashboard'} component={Dashboard} />
-              <Route path="/search" component={Search}/>
+              <Route exact path="/search" component={Search}/>
             <AppFooter/>
           </BrowserRouter>
         </IntlProvider>

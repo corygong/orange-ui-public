@@ -20,6 +20,7 @@ import {Layout ,
 } from 'antd';
 
 import CustomBarCharts from '../components/CustomBarCharts';
+import CustomLineCharts from '../components/CustomLineCharts';
 import { get, post } from '../utils/request';
 
 import moment from 'moment';
@@ -44,6 +45,13 @@ export default function Statistics(props) {
     const [data_source, setDataSource] = useState("");
     const [data_source_link, setDataSourceLink] = useState("");
     const [loading, setLoading] = useState(true);
+
+    const [categories, setCategories] = useState([]);
+
+
+    const [legendTitleZ, setLegendTitleZ] = useState(null);
+
+
 
 
 
@@ -72,15 +80,49 @@ export default function Statistics(props) {
 
         axios.get('/api/statistics/info/' + stat_name).then( res => {
             setLoading(false);
-            // console.log(res)
+
             const {data} = res;
-            setChartData(data.chart_data);
-            setChartDesc(data.chart_desc);
-            setChartTitle(data.chart_title);
-            setChartTitleX(data.chart_title_x);
-            setChartTitleY(data.chart_title_y);
-            setDataSource(data.data_source);
-            setDataSourceLink(data.data_source_link);
+
+            const {code} = data;
+
+
+            if (code == 200) {
+                setChartData(data.chart_data);
+                setChartDesc(data.chart_desc);
+                setChartTitle(data.chart_title);
+                setChartTitleX(data.chart_title_x);
+                setChartTitleY(data.chart_title_y);
+                setDataSource(data.data_source);
+                setDataSourceLink(data.data_source_link);
+                setCategories(data.categories);
+
+
+                setLegendTitleZ(data.legend_title_z);
+
+
+
+                // console.log(data.legend_title_z == null)
+
+                // if(data.legend_title_z == null) {
+                //     setChartTemplate(<CustomBarCharts loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />);
+                // }else {
+                //     setChartTemplate(<CustomLineCharts loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />);
+                // }
+            } else if (code == 404) {
+
+                //TODO: show 404 page
+                return (
+                    <Result
+                                status="404"
+                                title="404"
+                                subTitle="Sorry, the page you visited does not exist."
+                                extra={<Button type="primary">Back Home</Button>}
+                            />
+                )
+            }
+
+            
+
 
 
         }).catch( err => {
@@ -108,6 +150,8 @@ export default function Statistics(props) {
 
 
 
+    console.log(categories, chart_data)
+
     return (
 
         <Content style={{ padding:'0 50px' }}>
@@ -116,17 +160,17 @@ export default function Statistics(props) {
             <Row gutter={24}>
                         <Col span={16} >
     
-                            {/* {chartComponent} */}
+                                { legendTitleZ ===null ?<CustomBarCharts loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />: <CustomLineCharts categories={categories} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />}
     
-                            {/* <Suspense fallback={<PageLoading />}> */}
-                                <CustomBarCharts loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />
-                            {/* </Suspense> */}
+                                
+                                {/* <CustomLineCharts categories={categories} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} /> */}
     
+                            {/* {chartTemplate} */}
                         </Col>
                         <Col span={8} >
                             <Row gutter={16} type="flex">
                                 <Collapse defaultActiveKey={['1', '2', '3', '4']}>
-                                    <Panel key="1" header={<FormattedMessage id="app.statistics.download" />}>
+                                    <Panel key="1" header={<FormattedMessage id="app.statistics.download" defaultMessage="下载" />}>
                                         <Row gutter={16} type="flex">
                                             <Col span={8}><Button type="primary">PNG</Button></Col>
                                             <Col span={8}><Button type="primary">PDF</Button></Col>
@@ -135,16 +179,16 @@ export default function Statistics(props) {
     
                                     </Panel>
     
-                                    <Panel key="2" header={<FormattedMessage id="app.statistics.description" />}>
+                                    <Panel key="2" header={<FormattedMessage id="app.statistics.description" defaultMessage="描述"/>}>
     
                                         {chart_desc}
                                     </Panel>
     
-                                     <Panel key="3" header={<FormattedMessage id="app.statistics.source" />}>
+                                     <Panel key="3" header={<FormattedMessage id="app.statistics.source" defaultMessage="数据源"/>}>
                                         {data_source}
                                     </Panel>
     
-                                    <Panel key="4" header={<FormattedMessage id="app.statistics.source-link" />}>
+                                    <Panel key="4" header={<FormattedMessage id="app.statistics.source-link" defaultMessage="数据源链接"/>}>
                                         {data_source_link}
                                     </Panel>
                                 </Collapse>

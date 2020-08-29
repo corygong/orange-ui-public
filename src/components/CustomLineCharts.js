@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {Button, Card, Col, DatePicker, Form, Radio, Select, Row} from "antd";
 
 
@@ -14,9 +14,9 @@ NoDataToDisplay(Highcharts)
 
 
 
-const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
+const CustomLineCharts=memo(({categories, loading, title, data, xAxis, yAxis}) =>  (
 
-                <Card title="" loading={isLoading} style={{marginTop: 12}}>
+                <Card title="" loading={loading} style={{marginTop: 12}}>
 
 
                     <HighchartsReact
@@ -27,33 +27,50 @@ const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
                             title: {
                                 text: title
                             },
-                            series: [{
-                                name: tag,
-                                data: data,
-                                dataLabels: {
-                                    enabled: false,
-                                    rotation: -90,
-                                    color: '#FFFFFF',
-                                    align: 'right',
-                                    format: '{point.y:.1f}', // one decimal
-                                    y: 10// 10 pixels down from the top
-                                    // style: {
-                                    //     fontSize: '13px',
-                                    //     fontFamily: 'Verdana, sans-serif'
-                                    // }
-                                }
-                            }],
-                            chart: {
-                                type: 'column'
-                            },
+                            // series: [{
+                            //     name: title,
+                            //     data: data,
+                            //     dataLabels: {
+                            //         enabled: false,
+                            //         rotation: -90,
+                            //         color: '#FFFFFF',
+                            //         align: 'right',
+                            //         format: '{point.y:.1f}', // one decimal
+                            //         y: 10
+                            //     }
+                            // }],
+
+                            series: data,
+                            // series: [{
+                            //     name: '巴西',
+                            //     data: [107, 31, 635, 203, 2,2]
+                            // }, {
+                            //     name: '西班牙',
+                            //     data: [133, 156, 947, 408, 6]
+                            // }, {
+                            //     name: '美国',
+                            //     data: [973, 914, 4054, 732,0, 8]
+                            // }],
+                            // chart: {
+                            //     type: 'column'
+                            // },
                             credits: {
                                 enabled: false
                             },
+                            // legend: {
+                            //     enabled: false
+                            // },
                             legend: {
-                                enabled: false
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle'
                             },
                             xAxis: {
-                                type: 'category',
+                                // type: 'category',
+                                categories: categories,
+                                title: {
+                                    text: xAxis
+                                },
                                 labels: {
                                     rotation: -45,
                                     style: {
@@ -65,7 +82,7 @@ const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: tag
+                                    text: yAxis
                                 }
                             },
                             lang: {
@@ -88,10 +105,8 @@ const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
                     />
 
                 </Card>
-            </div>
-        );
-    }
-}
+           
+));
 
 
 export default CustomLineCharts;

@@ -37,6 +37,8 @@ import {
 
 import { get, post } from '../utils/request';
 
+import {Link} from 'react-router-dom';
+
 
 
 const {Content} = Layout;
@@ -45,7 +47,7 @@ export default function Search(props) {
 
 
 
-    const host = "http://localhost:3000/search/statistics_detail_idx"
+    const host = "http://localhost:3001/api/search"
     const searchkit = new SearchkitManager(host)
 
 
@@ -54,7 +56,7 @@ export default function Search(props) {
 
         console.log(props)
         const {bemBlocks, result} = props
-        let url = "http://localhost:8000/#/statistics?stat_name=" + result._source.stat_name
+        let url = "/statistics/" + result._source.stat_name
         const source = extend({}, result._source, result.highlight)
         return (
           <div className={bemBlocks.item().mix(bemBlocks.container("item"))} data-qa="hit">
@@ -70,8 +72,9 @@ export default function Search(props) {
             <div>
     
                 
+                <Link to={url} target='_blank'>
     
-                <a href={url} target="_blank">
+                {/* <a href={url} target="_blank"> */}
                     
                     {/* <Icon type="bar-chart" className={styles.iconStyle}/> */}
 
@@ -84,7 +87,7 @@ export default function Search(props) {
                         <h3 className={styles.subTitleStyle}> {source.chart_desc}</h3>
                     </div>
                     
-                </a>
+                </Link>
                 
             </div>
     

@@ -22,5 +22,31 @@
     "app.statistics.setting":"设置",
     "app.statistics.description":"描述",
     "app.statistics.source":"数据源",
-    "app.statistics.source-link":"数据源链接"
+    "app.statistics.source-link":"数据源链接",
+    "validation.stars.required": "请选择酒店的星级",
+    "form.province.label": "省/直辖市",
+    "form.province.placeholder": "请选择省/直辖市",
+  
+    "form.city.label": "城市",
+    "form.city.placeholder": "请选择城市",
+  
+    "form.area.label": "区域",
+    "form.area.placeholder": "请选择区域",
+  
+    "form.brand.label": "品牌",
+    "form.brand.placeholder": "请选择品牌",
+  
+    "form.zone.label": "商圈",
+    "form.zone.placeholder": "请选择商圈",
+  
+    "form.star.label":" 酒店星级",
+    "form.star.placeholder": "点击显示过滤",
+    "form.date.label": "起止日期",
+    "form.date.radio": "时间选项",
+    "form.date.yearly": "年度",
+    "form.date.quarterly": "季度",
+    "form.date.monthly": "月度",
+
+    "form.date.placeholder.start": "开始日期",
+    "form.date.placeholder.end": "结束日期"
 }
