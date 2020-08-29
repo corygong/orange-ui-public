@@ -16,6 +16,7 @@ import Home from './pages/Home';
 import Statistics from './pages/Statistics';
 import Dashboard from './pages/Dashboard';
 import Search from './pages/Search';
+import Login from './pages/Login';
 
 import NotFound from './components/NotFound';
 
@@ -38,6 +39,7 @@ const PrimaryLayout = props => (
               <Route path={'/statistics/:stat_name'} component={Statistics} />
               <Route exact path={'/dashboard'} component={Dashboard} />
               <Route exact path="/search" component={Search}/>
+              <Route exact path="/login" component={Login} />
             <AppFooter/>
           </BrowserRouter>
         </IntlProvider>

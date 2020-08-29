@@ -1,7 +1,8 @@
+
 .ant-input-group{
-   
-   margin-left: auto;
-   margin-right: auto;
+
+    margin-left: auto;
+    margin-right: auto;
     min-width: 500px;
     border-radius: 27.5px;
     max-width: 746px;
@@ -13,13 +14,13 @@
 /* .ant-input-group-addon {
     background-color: transparent;
 } */
-.ant-input {
+.ant-input{
     height: 55px;
     border-radius: 27.5px;
 
 }
 
-.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button, .ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
+.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button, .ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button{
     border-radius: 27.5px;
 }
 .ant-input-search-button{
@@ -28,7 +29,6 @@
     border-top-left-radius: 27.5px;
     margin-right: -60px;
     padding:0 30px;
-   
-}
 
+}
 

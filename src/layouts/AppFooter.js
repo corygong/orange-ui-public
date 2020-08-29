@@ -7,7 +7,7 @@ const { Footer } = Layout;
 export default function AppFooter() {
 
     return (
-        <Footer style={{ textAlign: 'center' }}>TreehouseData ©2020</Footer>
+        <Footer style={{background:'#0f2741',color:'#fff', textAlign: 'center' }}>TreehouseData ©2020</Footer>
     )
 
 }
