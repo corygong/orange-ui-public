@@ -1,9 +1,11 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import 'antd/dist/antd.css';
+
 
 import { BrowserRouter, Router, Route } from 'react-router-dom';
+
+import { PrivateRoute } from './components/PrivateRoute';
 import AppHeader from './layouts/AppHeader';
 import AppFooter from './layouts/AppFooter';
 
@@ -21,6 +23,9 @@ import Login from './pages/Login';
 import NotFound from './components/NotFound';
 
 
+import { authenticationService } from './services/authentication.service';
+
+
 
 
 
@@ -32,23 +37,63 @@ const PrimaryLayout = props => (
 
         <IntlProvider locale='en' defaultLocale="en" messages={zh}
 >
-          <BrowserRouter>
+          
             <AppHeader/>
-              <Route exact path={'/'} component={Home} />
+              <PrivateRoute exact path={'/'} component={Home} />
               {/* <Route path={'/statistics'} component={ NotFound}/> */}
-              <Route path={'/statistics/:stat_name'} component={Statistics} />
-              <Route exact path={'/dashboard'} component={Dashboard} />
-              <Route exact path="/search" component={Search}/>
-              <Route exact path="/login" component={Login} />
+              <PrivateRoute path={'/statistics/:stat_name'} component={Statistics} />
+              <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
+              <PrivateRoute exact path="/search" component={Search}/>
+              {/* <Route exact path="/login" component={Login} /> */}
             <AppFooter/>
-          </BrowserRouter>
+    
         </IntlProvider>
        
         
     </div>
 )
+
+
+
+const UserLayout = props => (
+  <div style={{background:'#0f2741'}}> 
+          <IntlProvider locale='en' defaultLocale="en" messages={zh}
+>
+
+    <Route exact path="/login" component={Login} />
+
+    {/* <AppFooter/> */}
+    </IntlProvider>
+  </div>
+)
+
+
 function App() {
-  return <PrimaryLayout/>
+
+
+  const [currentUser, setCurrentUser] = useState(null)
+
+
+
+
+  useEffect(() => {
+
+    setCurrentUser(authenticationService.currentUser)
+  }, [authenticationService.currentUser]);
+
+  // authenticationService.currentUser.subscribe(x => this.setState({ currentUser: x }));
+  // return <PrimaryLayout/>
+
+  return (
+
+    <BrowserRouter>
+    <div>
+
+      {currentUser && <PrimaryLayout/>}
+      <UserLayout/>
+    </div>
+    </BrowserRouter>
+  )
 }
 
 export default App;

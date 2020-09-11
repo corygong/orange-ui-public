@@ -1,0 +1,50 @@
+
+.top {
+  text-align: center;
+}
+.top .header {
+  height: 44px;
+  line-height: 44px;
+}
+.top .desc {
+  margin-top: 12px;
+  margin-bottom: 40px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}
+.main {
+  width: 388px;
+  margin: 0 auto;
+  /* @media screen and (max-width: @screen-sm) {
+    width: 95%;
+  } */
+}
+
+.main .icon {
+    margin-left: 16px;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    /* &:hover {
+      color: @primary-color;
+    } */
+}
+
+.main .other {
+    margin-top: 24px;
+    line-height: 22px;
+    text-align: left;
+}
+
+.main .register {
+      float: right;
+}
+  
+
+.btn{
+  width: 100%;
+    margin-top: 24px;
+}

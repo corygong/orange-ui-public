@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Layout ,Breadcrumb, Input, Button, Form} from 'antd'
 
 
-import './Home.css';
+import styles from './Home.module.css';
 
 
 import { useHistory } from 'react-router-dom';
@@ -48,7 +48,7 @@ export default function Home(props) {
     }
     return (
 
-        <Content style={{ padding:'0 50px' }}>
+        <Content className={styles.homePage}>
 
             
             <div style={{background:'#0f2741', padding: '24px', minHeight:'600px'}}>
@@ -71,12 +71,16 @@ export default function Home(props) {
                     </Form.Item>
                 </Form> */}
 
-            <Search
-                placeholder="input search text"
-                enterButton="Search"
-                size="large"
-                onSearch={value => onSearch(value)}
-                />
+            
+                <Search
+                    
+                    
+                    placeholder="input search text"
+                    enterButton="Search"
+                    size="large"
+                    onSearch={value => onSearch(value)}
+                    />
+               
                 
             </div>
         </Content>
