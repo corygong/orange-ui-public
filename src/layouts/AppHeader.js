@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Menu ,Avatar, Dropdown} from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UserOutlined, TranslationOutlined } from '@ant-design/icons';
 
 import styles  from './AppHeader.module.css';
@@ -12,6 +12,28 @@ const { Header } = Layout;
 
 
 export default function AppHeader() {
+
+
+    let history = useHistory();
+
+    const logout = () => {
+
+
+        localStorage.removeItem('currentUser');
+        history.push('/login');
+    }
+
+    const menu = (
+        <Menu>
+ 
+          <Menu.Item>
+            <a onClick={logout}>
+              Logout
+            </a>
+          </Menu.Item>
+        </Menu>
+      )
+
 
     return (
         <Header style={{background:'#0f2741', display:"flex"}}>
@@ -42,7 +64,11 @@ export default function AppHeader() {
             </Menu>
 
             <div style={{float:"right",  marginLeft:'auto'}}>
-                <UserOutlined className={styles.iconstyle} />
+
+                <Dropdown overlay={menu}>
+                    <UserOutlined className={styles.iconstyle} />
+
+                </Dropdown>
 
 
                 <SelectLang/>

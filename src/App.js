@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 
-import { BrowserRouter, Router, Route } from 'react-router-dom';
+import { BrowserRouter, Router, Route, useHistory } from 'react-router-dom';
 
 import { PrivateRoute } from './components/PrivateRoute';
 import AppHeader from './layouts/AppHeader';
@@ -19,11 +19,13 @@ import Statistics from './pages/Statistics';
 import Dashboard from './pages/Dashboard';
 import Search from './pages/Search';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 import NotFound from './components/NotFound';
+import { render } from '@testing-library/react';
 
 
-import { authenticationService } from './services/authentication.service';
+
 
 
 
@@ -32,68 +34,70 @@ import { authenticationService } from './services/authentication.service';
 
 const zh = import('./locales/zh-CN.json');
 
-const PrimaryLayout = props => (
-    <div style={{background:'#0f2741'}}> 
-
-        <IntlProvider locale='en' defaultLocale="en" messages={zh}
->
-          
-            <AppHeader/>
-              <PrivateRoute exact path={'/'} component={Home} />
-              {/* <Route path={'/statistics'} component={ NotFound}/> */}
-              <PrivateRoute path={'/statistics/:stat_name'} component={Statistics} />
-              <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
-              <PrivateRoute exact path="/search" component={Search}/>
-              {/* <Route exact path="/login" component={Login} /> */}
-            <AppFooter/>
-    
-        </IntlProvider>
-       
-        
-    </div>
-)
 
 
 
-const UserLayout = props => (
-  <div style={{background:'#0f2741'}}> 
-          <IntlProvider locale='en' defaultLocale="en" messages={zh}
->
-
-    <Route exact path="/login" component={Login} />
-
-    {/* <AppFooter/> */}
-    </IntlProvider>
-  </div>
-)
 
 
-function App() {
 
 
-  const [currentUser, setCurrentUser] = useState(null)
+export default function App(props) {
 
 
+
+
+
+
+
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser'));
+
+  let history = useHistory();
 
 
   useEffect(() => {
+    if (localStorage.getItem("currentUser") === null) {
+        history.push('/login');
+    }
+  
+  },[])
+  
+  
 
-    setCurrentUser(authenticationService.currentUser)
-  }, [authenticationService.currentUser]);
+
+
+  console.log(currentUser)
 
   // authenticationService.currentUser.subscribe(x => this.setState({ currentUser: x }));
   // return <PrimaryLayout/>
 
-  return (
 
-    <BrowserRouter>
-    <div>
+    return (
 
-      {currentUser && <PrimaryLayout/>}
-      <UserLayout/>
-    </div>
-    </BrowserRouter>
-  )
+      <IntlProvider locale='en' defaultLocale="en" messages={zh}>
+        <BrowserRouter history={history}>
+          <div>
+  
+            {
+              currentUser && <AppHeader/> }
+      
+          
+            <div>
+                    {/* <AppHeader/> */}
+                      <PrivateRoute exact path={'/'} component={Home} />
+                      {/* <Route path={'/statistics'} component={ NotFound}/> */}
+                      <PrivateRoute path={'/statistics/:stat_name'} component={Statistics} />
+                      <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
+                      <PrivateRoute exact path={"/search"} component={Search}/>
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/register" component={Register} />
+                    <AppFooter/>
+            </div>
+          </div>
+        </BrowserRouter>
+      </IntlProvider>
+    )
+  
+
 }
 
-export default App;
+

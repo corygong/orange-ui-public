@@ -1,17 +1,49 @@
 
-.top {
+.container {
+
+
+    background-position: center 110px;
+    background-size: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
+    background: #f0f2f5;
+}
+
+.content {
+  padding: 32px 0 24px;
+
+  
+  /* min-height: 300px; */
+}
+
+
+.content .top {
   text-align: center;
 }
-.top .header {
+.content .top .header {
   height: 44px;
+
   line-height: 44px;
 }
-.top .desc {
+
+.content .top .header .title {
+    position: relative;
+    top: 2px;
+    color: rgba(0,0,0,.85);
+    font-weight: 600;
+    font-size: 33px;
+    font-family: Avenir,helvetica neue,Arial,Helvetica,sans-serif;
+}
+.content .top .desc {
   margin-top: 12px;
   margin-bottom: 40px;
   color: rgba(0, 0, 0, 0.45);
   font-size: 14px;
 }
+
+
 .main {
   width: 388px;
   margin: 0 auto;

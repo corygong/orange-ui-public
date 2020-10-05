@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-
+import { useHistory, Link } from "react-router-dom";
 import {Form, Checkbox, Input, Button, Layout, Row, Col, Alert} from 'antd';
 
 
@@ -11,6 +11,7 @@ import {UserOutlined, LockOutlined} from '@ant-design/icons';
 
 import { authenticationService } from '../services/authentication.service';
 
+import axios from 'axios';
 import styles from './Login.module.css';
 const {Content} = Layout;
 
@@ -28,13 +29,21 @@ export default function Login(props) {
     const [submitting, setSubmitting] = useState(false)
 
 
+    const [errMesg, setErrMesg] = useState('');
 
-    // useEffect(()=>{
 
-    //     if (authenticationService.currentUserValue) { 
-    //         this.props.history.push('/');
-    //     }
-    // }, [authenticationService.currentUserValue])
+    let history = useHistory();
+
+
+
+
+
+    useEffect(()=>{
+
+        if (localStorage.getItem('currentUser')) { 
+            history.push('/');
+        }
+    }, [])
 
     const onTabChange = type => {
         setType(type);
@@ -75,6 +84,38 @@ export default function Login(props) {
     }
     const onFinish = values => {
 
+        console.log(values)
+
+        
+        const {username, password} = values
+
+        let email = ''
+        if (username.indexOf('@') !== -1)  {
+            email = username
+            username = ''
+        } 
+    
+    
+    
+        return axios.post('/api/rest-auth/login/', JSON.stringify({ email, username, password }), {
+            headers: {
+                'content-type':'application/json'
+            }
+        }).then( res => {
+            console.log(res)
+
+
+            const {token, user} = res.data;
+
+
+            localStorage.setItem('currentUser', user.email);
+
+            history.push('/');
+        }).catch( err => {
+            console.log(err)
+
+            setErrMesg("err")
+        })
     }
 
     const onFinishFailed = errInfo => {
@@ -89,13 +130,29 @@ export default function Login(props) {
 
 
 
-
+        <div className={styles.container}>
         <div className={styles.login}>
-            <div className={styles.top}>
-                <div className={styles.header}>Treehouse Data</div>
+            <div className={styles.content}>
 
-            </div>
-            <div className={styles.main}>
+                
+                <div className={styles.top}>
+
+                    <div className={styles.header}>
+                        <span className={styles.title}>Treehouse Data</span>
+                    </div>
+
+                    <div className={styles.desc}>Login</div>
+                </div>
+
+                
+                <div className={styles.main}>
+            {errMesg !== '' &&
+              
+              !submitting &&
+              renderMessage(
+                  <FormattedMessage id = 'app.login.message-invalid-verification-code' defaultMessage='Invalid email or password'/>
+               
+                )}
                 <Form
             
                     initialValues={{ remember: true }}
@@ -104,12 +161,24 @@ export default function Login(props) {
                 >
 
 
-                        <Form.Item>
-                             <Input  size='large' prefix={<UserOutlined />}/>
+                        <Form.Item
+                            name='username'
+                            rules={[{ required: true, message: 'Please input your username/email!' }]}
+                            
+                        >
+                             <Input  size='large' prefix={<UserOutlined />}
+                             placeholder='Please input your username/email'/>
                         </Form.Item>
                         
-                        <Form.Item>
-                            <Input.Password  size='large' prefix={<LockOutlined />}/>
+                        <Form.Item
+                            name='password'
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                            
+                        
+                        >
+                            <Input.Password  size='large' prefix={<LockOutlined />}
+                            placeholder='Please input your password'
+                            />
                         </Form.Item>
 
 
@@ -122,15 +191,30 @@ export default function Login(props) {
                             </a>
                         </div>
                         <Form.Item>
-                            <Button className={styles.btn} type='primary' htmlType='submit'>Login</Button>
+                            <Button loading={submitting} className={styles.btn} type='primary' htmlType='submit'>Login</Button>
                         </Form.Item>
+
+
+                        <div className={styles.other}>
+
+
+                            <Link className={styles.register} to="/register">
+                                <FormattedMessage id="app.login.signup" defaultMessage="注册"/>
+                            </Link>
+                        </div>
                    
                 </Form>
             </div>
+
+            </div>
+
+           
+           
              
             
 
             
+        </div>
         </div>
    
     )
