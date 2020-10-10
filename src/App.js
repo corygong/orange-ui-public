@@ -74,7 +74,7 @@ export default function App(props) {
     return (
 
       <IntlProvider locale='en' defaultLocale="en" messages={zh}>
-        <BrowserRouter history={history}>
+        <BrowserRouter history={history} forceRefresh={true}>
           <div>
   
             {

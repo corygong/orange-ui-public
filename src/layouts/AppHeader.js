@@ -11,15 +11,18 @@ const { Header } = Layout;
 
 
 
-export default function AppHeader() {
+export default function AppHeader(props) {
 
 
     let history = useHistory();
+
+
 
     const logout = () => {
 
 
         localStorage.removeItem('currentUser');
+     
         history.push('/login');
     }
 
@@ -72,13 +75,7 @@ export default function AppHeader() {
 
 
                 <SelectLang/>
-
-                
             </div>
-
-            
-           
-            
         </Header>
     )
 
