@@ -6,7 +6,7 @@ import {Form, Checkbox, Input, Button, Layout, Row, Col, Alert} from 'antd';
 
 import { FormattedMessage } from 'react-intl';
 
-import {UserOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
 
 
 import { authenticationService } from '../services/authentication.service';
@@ -32,18 +32,21 @@ export default function Login(props) {
     const [errMesg, setErrMesg] = useState('');
 
 
-    let history = useHistory();
 
 
 
+    console.log(props)
+    
 
 
-    useEffect(()=>{
 
-        if (localStorage.getItem('currentUser')) { 
-            history.push('/');
-        }
-    }, [])
+    // useEffect(()=>{
+
+        
+    //     if (localStorage.getItem('currentUser')) { 
+    //         props.history.push('/');
+    //     }
+    // }, [localStorage.getItem('currentUser')])
 
     const onTabChange = type => {
         setType(type);
@@ -84,27 +87,23 @@ export default function Login(props) {
     }
     const onFinish = values => {
 
-        console.log(values)
-
         
-        const {username, password} = values
+        const {email, password} = values
 
-        let email = ''
-        if (username.indexOf('@') !== -1)  {
-            email = username
-            username = ''
-        } 
+ 
     
-    
+        const username = email
     
         return axios.post('/api/rest-auth/login/', JSON.stringify({ email, username, password }), {
             headers: {
                 'content-type':'application/json'
             }
         }).then( res => {
-            console.log(res)
 
 
+            
+            console.log(props)
+            const {history} = props;
             const {token, user} = res.data;
 
 
@@ -162,12 +161,12 @@ export default function Login(props) {
 
 
                         <Form.Item
-                            name='username'
-                            rules={[{ required: true, message: 'Please input your username/email!' }]}
+                            name='email'
+                            rules={[{ required: true, message: 'Please input your email!' }]}
                             
                         >
-                             <Input  size='large' prefix={<UserOutlined />}
-                             placeholder='Please input your username/email'/>
+                             <Input  size='large' prefix={<MailOutlined />}
+                             placeholder='Please input your email'/>
                         </Form.Item>
                         
                         <Form.Item

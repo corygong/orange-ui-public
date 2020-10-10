@@ -48,7 +48,10 @@ export default function Register(props) {
         console.log(values)
 
         
-        const {username, email, password1, password2} = values
+        const {email, password1, password2} = values
+
+
+        const username = email;
 
       
     
@@ -78,9 +81,9 @@ export default function Register(props) {
             if (err.response.hasOwnProperty('data')) {
                 let data = err.response.data;
 
-                if (data.hasOwnProperty('username')) {
-                    errMesg += "The username has already registered, please try another one"
-                }
+                // if (data.hasOwnProperty('username')) {
+                //     errMesg += "The username has already registered, please try another one"
+                // }
                 if (data.hasOwnProperty('email')) {
 
                     if(errMesg == "") {
@@ -157,14 +160,14 @@ export default function Register(props) {
                 >
 
 
-                        <Form.Item
+                        {/* <Form.Item
                             name='username'
                             rules={[{ required: true, message: 'Please input your username!' }]}
                             
                         >
                              <Input  size='large' prefix={<UserOutlined />}
                              placeholder='Please input your username'/>
-                        </Form.Item>
+                        </Form.Item> */}
 
                         <Form.Item
                             name='email'

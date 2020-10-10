@@ -54,12 +54,12 @@ export default function App(props) {
   let history = useHistory();
 
 
-  useEffect(() => {
-    if (localStorage.getItem("currentUser") === null) {
-        history.push('/login');
-    }
+  // useEffect(() => {
+  //   if (localStorage.getItem("currentUser") === null) {
+  //       history.push('/login');
+  //   }
   
-  },[])
+  // },[])
   
   
 
