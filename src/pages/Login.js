@@ -106,8 +106,14 @@ export default function Login(props) {
             const {history} = props;
             const {token, user} = res.data;
 
+            user.email = user.username
+
+
+            // console.log(user)
+
 
             localStorage.setItem('currentUser', user.email);
+            localStorage.setItem('currentJWT', token);
 
             history.push('/');
         }).catch( err => {

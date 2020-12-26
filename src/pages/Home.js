@@ -7,6 +7,8 @@ import styles from './Home.module.css';
 
 import { useHistory } from 'react-router-dom';
 
+
+
 const {Content} = Layout;
 
 const { Search } = Input;

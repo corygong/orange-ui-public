@@ -22,6 +22,7 @@ export default function AppHeader(props) {
 
 
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentJWT');
      
         history.push('/login');
     }

@@ -32,7 +32,9 @@ import {
     ActionBarRow,
     ViewSwitcherToggle,
     SortingSelector,
-    GroupedSelectedFilters
+    GroupedSelectedFilters,
+    AxiosESTransport
+    
     } from "searchkit";
 
 import { get, post } from '../utils/request';
@@ -49,6 +51,13 @@ export default function Search(props) {
 
     const host = "http://localhost:3000/api/search"
     const searchkit = new SearchkitManager(host)
+
+    searchkit.transport =  new AxiosESTransport(host, {
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "JWT " + localStorage.getItem('currentJWT'),
+        }
+    })
 
 
 

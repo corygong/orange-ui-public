@@ -78,7 +78,9 @@ export default function Statistics(props) {
       
         console.log(stat_name)
 
-        axios.get('/api/statistics/info/' + stat_name).then( res => {
+        axios.get('/api/statistics/info/' + stat_name,{ headers:{
+            'Authorization': 'jwt ' +  localStorage.getItem('currentJWT')
+        }}).then( res => {
             setLoading(false);
 
             const {data} = res;
