@@ -49,7 +49,7 @@ export default function Search(props) {
 
 
 
-    const host = "http://localhost:3000/api/search"
+    const host = "http://localhost:8000/api/search"
     const searchkit = new SearchkitManager(host)
 
     searchkit.transport =  new AxiosESTransport(host, {
