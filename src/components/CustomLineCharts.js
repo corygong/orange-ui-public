@@ -14,7 +14,7 @@ NoDataToDisplay(Highcharts)
 
 
 
-const CustomLineCharts=memo(({categories, loading, title, data, xAxis, yAxis}) =>  (
+const CustomLineCharts=memo(({chartRef, categories, loading, title, data, xAxis, yAxis}) =>  (
 
                 <Card title="" loading={loading} style={{marginTop: 12}}>
 
@@ -23,6 +23,7 @@ const CustomLineCharts=memo(({categories, loading, title, data, xAxis, yAxis}) =
                         highcharts={Highcharts}
                         // constructorType={'stockChart'}
                         // rangeSelector={{selected: 1}}
+                        callback = {chart => (chartRef.current = chart)}
                         options={{
                             title: {
                                 text: title

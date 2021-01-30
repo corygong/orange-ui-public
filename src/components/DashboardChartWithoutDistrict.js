@@ -243,7 +243,7 @@ export default function DashboardChartWithoutDistrict(props) {
 
                 <Form.Item 
                     name='province'
-                    label={<FormattedMessage id="form.province.label"/>}
+                    label={<FormattedMessage id="form.province.label" defaultMessage="省"/>}
                     rules={[{
                         required: true,
                         message: <FormattedMessage id="form.province.placeholder"/>
@@ -264,7 +264,7 @@ export default function DashboardChartWithoutDistrict(props) {
                     label={<FormattedMessage id="form.city.label"/>}
                     rules={[{
                         required: true,
-                        message: <FormattedMessage id="form.city.placeholder"/>,
+                        message: <FormattedMessage id="form.city.placeholder" defaultMessage="市"/>,
 
                     }]}
                     initialValue={cityValue}
@@ -287,9 +287,9 @@ export default function DashboardChartWithoutDistrict(props) {
                 >
                     
                         <Radio.Group>
-                            <Radio value={1}>{<FormattedMessage id="form.date.yearly"/>}</Radio>
+                            <Radio value={1}>{<FormattedMessage id="form.date.yearly" defaultMessage="年"/>}</Radio>
 
-                            <Radio value={3}>{<FormattedMessage id="form.date.monthly"/>}</Radio>
+                            <Radio value={3}>{<FormattedMessage id="form.date.monthly" defaultMessage="月"/>}</Radio>
                         </Radio.Group>
                   
 
@@ -299,7 +299,7 @@ export default function DashboardChartWithoutDistrict(props) {
                     name='date'
                     rules={[{
                         required: true,
-                        message: <FormattedMessage id="form.province.placeholder"/>
+                        message: <FormattedMessage id="form.province.placeholder" defaultMessage="日期"/>
                     }]}
                     trigger='onPanelChange'
                     setFieldsValue={dateValue}
@@ -311,7 +311,7 @@ export default function DashboardChartWithoutDistrict(props) {
                 </Form.Item>
                 <Form.Item 
                     name='star'
-                    label={<FormattedMessage id="form.star.label"/>}
+                    label={<FormattedMessage id="form.star.label" defaultMessage="星级"/>}
                     rules={[{
                         required: true,
                         message: <FormattedMessage id='validation.stars.required' defaultMessage='请选择酒店的星级'/>
@@ -329,10 +329,10 @@ export default function DashboardChartWithoutDistrict(props) {
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={isLoading}>
-                        <FormattedMessage id="app.label.search.title"/>
+                        <FormattedMessage id="app.label.search.title" defaultMessage="搜索"/>
                     </Button>
                     <Button style={{marginLeft: 10}} onClick={handleFormReset}>
-                        <FormattedMessage id="app.label.reset.title"/>
+                        <FormattedMessage id="app.label.reset.title" defaultMessage="重置"/>
                     </Button>
                 </Form.Item>
             </Form>

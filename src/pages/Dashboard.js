@@ -60,7 +60,9 @@ export default function Dashboard(props) {
         
   
 
+    // useEffect(() => {
 
+    // }, [])
 
 
 
@@ -73,7 +75,7 @@ export default function Dashboard(props) {
 
 
         form.validateFields().then(fieldValue => {
-            console.log(fieldValue);
+            // console.log(fieldValue);
             let date, formValues = {};
             if (fieldValue.radio1 == 1) {
                 date = fieldValue.date1.format("YYYY")
@@ -81,7 +83,9 @@ export default function Dashboard(props) {
                 date = fieldValue.date1.format("YYYY-MM")
             }
 
-            formValues['city'] = fieldValue.city1;
+            
+            formValues['city'] = fieldValue.city1.replace("市", "");
+            
 
             formValues['star'] = fieldValue.star1;
             formValues['date'] = date;
@@ -89,11 +93,15 @@ export default function Dashboard(props) {
 
 
 
-            console.log(formValues);
+            // console.log(formValues)
+       
          
             setBasicLoading(true);
 
-            axios.post('/api/hotel/dashboard/basicMetrics/', formValues).then( res => {
+            axios.post('/api/hotel/dashboard/basicMetrics/', JSON.stringify(formValues), { headers:{
+                'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+                'Content-Type': 'application/json'
+            }}).then( res => {
                 console.log(res)
                 setBasicLoading(false);
             }).catch( err => {
@@ -130,6 +138,8 @@ export default function Dashboard(props) {
 
 
     const onProvinceChange = (value) => {
+
+        console.log(value)
 
         form.setFieldsValue({
             city1: cityData[value][0]
@@ -190,7 +200,7 @@ export default function Dashboard(props) {
         <Content style={{ padding:'0 50px' }}>
       
 
-                <Collapse defaultActiveKey={['1', '2']}>
+                <Collapse defaultActiveKey={['1']}>
                     <Panel key='1' header={<FormattedMessage id="app.dashboard.basic-metric" defaultMessage="基本指标"/>}>
                         <Form 
                             form={form} 
@@ -207,9 +217,10 @@ export default function Dashboard(props) {
                                     }]
                                 }
                                 initialValue={provinceData[0]}
-                                onChange={onProvinceChange}
+                                // onFieldsChange={onProvinceChange}
                             >
                                 <Select
+                                onChange={onProvinceChange}
                                 >
                                     {provinceData.map(province => <Option
                                         key={province}>{province}</Option>)}
@@ -223,7 +234,7 @@ export default function Dashboard(props) {
                                 rules={
                                     [{
                                         required: true,
-                                        message: <FormattedMessage id="form.city.placeholder"/>
+                                        message: <FormattedMessage id="form.city.placeholder" defaultMessage='搜索城市'/>
                                     }]
                                 }
                                 initialValue={cityValue}

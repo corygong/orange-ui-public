@@ -56,7 +56,7 @@ export default function Home(props) {
             <div style={{background:'#0f2741', padding: '24px', minHeight:'600px'}}>
 
                 <h1 style={{textAlign:'center', color:'#fff', fontSize:'62px'}}>Data Exploration Platform</h1>
-                <h2 style={{textAlign:'center', color:'#fff', fontSize:'24px'}}>Suan.....</h2>
+                <h2 style={{textAlign:'center', color:'#fff', fontSize:'24px'}}>Search More...</h2>
          
 
           

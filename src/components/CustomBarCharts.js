@@ -1,5 +1,5 @@
 
-import React, {memo } from "react";
+import React, {memo, useRef } from "react";
 import {Button, Card, Col, DatePicker, Form, Radio, Select, Row} from "antd";
 
 
@@ -15,13 +15,15 @@ NoDataToDisplay(Highcharts)
 
 
 
-const CustomBarCharts=memo(({loading, title, data, xAxis, yAxis}) =>  (
+const CustomBarCharts=memo(({chartRef, loading, title, data, xAxis, yAxis}) =>  (
 
                 <Card title="" loading={loading}>
 
 
                     <HighchartsReact
                         highcharts={Highcharts}
+                        callback = {chart => (chartRef.current = chart)}
+                    
                         // constructorType={'stockChart'}
                         // rangeSelector={{selected: 1}}
                         options={{

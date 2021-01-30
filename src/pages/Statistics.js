@@ -1,10 +1,15 @@
-import React, { useState, Suspense, useEffect} from 'react';
+import React, { useState, Suspense, useEffect, useRef} from 'react';
 
 import axios from 'axios';
 import Highcharts from "highcharts";
+import { CSVLink, CSVDownload } from "react-csv";
 import HighchartsReact from 'highcharts-react-official'
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
+import HC_exporting from 'highcharts/modules/exporting';
+
+
 import { useLocation } from 'react-router-dom';
+
 
 import { FormattedMessage } from 'react-intl';
 
@@ -23,13 +28,19 @@ import CustomBarCharts from '../components/CustomBarCharts';
 import CustomLineCharts from '../components/CustomLineCharts';
 import { get, post } from '../utils/request';
 
+
 import moment from 'moment';
+
+
+
 window.moment = moment
 NoDataToDisplay(Highcharts)
 
 const {Content} = Layout;
 const {Panel} = Collapse;
 
+
+HC_exporting(Highcharts);
 export default function Statistics(props) {
 
 
@@ -130,10 +141,31 @@ export default function Statistics(props) {
         }).catch( err => {
             message.error("Server Error!")
         })
+
+   
      
     }, [stat_name]);
 
     
+
+
+    const chartRef = useRef()
+    const exportPNG = () => {
+       
+        const chart = chartRef.current;
+        chartRef.current && chartRef.current.exportChart({type: "image/png", filename:chart_title});
+        chartRef.current = chart;
+        // chartRef.current.exportChart({type: "application/png"});
+
+
+    }
+    const exportPDF = () => {
+       
+        const chart = chartRef.current;
+        chartRef.current && chartRef.current.exportChart({type: "application/pdf", filename: chart_title});
+        chartRef.current = chart;
+
+    }
 
 
 
@@ -152,7 +184,7 @@ export default function Statistics(props) {
 
 
 
-    console.log(categories, chart_data)
+    // console.log(categories, chart_data)
 
     return (
 
@@ -162,7 +194,10 @@ export default function Statistics(props) {
             <Row gutter={24}>
                         <Col span={16} >
     
-                                { legendTitleZ ===null ?<CustomBarCharts loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />: <CustomLineCharts categories={categories} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />}
+                                { legendTitleZ ===null ?
+                                <CustomBarCharts chartRef={chartRef} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />
+                                : 
+                                <CustomLineCharts chartRef={chartRef} categories={categories} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} />}
     
                                 
                                 {/* <CustomLineCharts categories={categories} loading={loading} title= {chart_title} data={chart_data} xAxis={chart_title_x} yAxis={chart_title_y} /> */}
@@ -174,9 +209,11 @@ export default function Statistics(props) {
                                 <Collapse defaultActiveKey={['1', '2', '3', '4']}>
                                     <Panel key="1" header={<FormattedMessage id="app.statistics.download" defaultMessage="下载" />}>
                                         <Row gutter={16} type="flex">
-                                            <Col span={8}><Button type="primary">PNG</Button></Col>
-                                            <Col span={8}><Button type="primary">PDF</Button></Col>
-                                            <Col span={8}><Button type="primary">XLS</Button></Col>
+                                            <Col span={8}><Button type="primary" onClick={exportPNG}>PNG</Button></Col>
+                                            <Col span={8}><Button type="primary" onClick={exportPDF}>PDF</Button></Col>
+                                            <CSVLink data={chart_data} filename={chart_title + ".csv"}>
+                                                <Col span={8}><Button type="primary">XLS</Button></Col>
+                                            </CSVLink>
                                         </Row>
     
                                     </Panel>

@@ -48,7 +48,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
             <Col style={{...colStyles}}>
                 <ChartCard
                     bordered={true}
-                    title={<FormattedMessage id="app.dashboard.total-hotel-num" defaultMessage="Total Sales"/>}
+                    title={<FormattedMessage id="app.dashboard.total-hotel-num" defaultMessage="总酒店数"/>}
 
                     loading={loading}
                     total={() => <div>{data['totel_hotel_num']}</div>}
@@ -69,7 +69,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
                 <ChartCard
                     bordered={true}
                     loading={loading}
-                    title={<FormattedMessage id="app.dashboard.total-room-num" defaultMessage="Total Rooms"/>}
+                    title={<FormattedMessage id="app.dashboard.total-room-num" defaultMessage="总房间数"/>}
                     // action={
                     //     <Tooltip
                     //         title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce"/>}
@@ -191,7 +191,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
             <Col {...topColResponsiveProps2}>
                 <ChartCard
                     bordered={true}
-                    title={<FormattedMessage id="app.dashboard.yoy-adr" defaultMessage="Total Sales"/>}
+                    title={<FormattedMessage id="app.dashboard.yoy-adr" defaultMessage="同比ADR趋势"/>}
                     // action={
                     //     <Tooltip
                     //         title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce"/>}
@@ -217,7 +217,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
                 <ChartCard
                     bordered={true}
                     loading={loading}
-                    title={<FormattedMessage id="app.dashboard.chain-adr" defaultMessage="Visits"/>}
+                    title={<FormattedMessage id="app.dashboard.chain-adr" defaultMessage="环比ADR趋势"/>}
                     // action={
                     //     <Tooltip
                     //         title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce"/>}
@@ -241,7 +241,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
                 <ChartCard
                     bordered={true}
                     loading={loading}
-                    title={<FormattedMessage id="app.dashboard.yoy-hotel-num" defaultMessage="Payments"/>}
+                    title={<FormattedMessage id="app.dashboard.yoy-hotel-num" defaultMessage="同比酒店数趋势"/>}
                     // action={
                     //     <Tooltip
                     //         title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce"/>}
@@ -273,7 +273,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
                     title={
                         <FormattedMessage
                             id="app.dashboard.yoy-room-num"
-                            defaultMessage="Operational Effect"
+                            defaultMessage="同比房间数趋势"
                         />
                     }
                     // action={
