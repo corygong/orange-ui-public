@@ -54,12 +54,12 @@ export default function AppHeader(props) {
     
                     <Link style={{color:'#fff'}} to ='/statistics'>Data & Charts</Link>
                 </Menu.Item>
-                <Menu.Item key='2'>
+                {/* <Menu.Item key='2'>
                     <Link style={{color:'#fff'}} to ='/reports'>Reports</Link>
                 </Menu.Item>
                 <Menu.Item key='3'>
                     <Link style={{color:'#fff'}} to ='/Tables'>Tables</Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key='4'>
                     <Link style={{color:'#fff'}} to ='/dashboard'>Dashboard</Link>
                 </Menu.Item>

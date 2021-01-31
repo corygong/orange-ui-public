@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Layout , Collapse, Form, DatePicker, Select, Row, Col, message, Radio, Button} from 'antd'
 
 import axios from 'axios';
@@ -21,7 +21,8 @@ const {provinceData, cityData} = dists;
 const {Content} = Layout;
 const {Panel} = Collapse;
 const {Option} = Select;
-const currYear = new Date().getFullYear().toString()
+// const currYear = new Date().getFullYear().toString()
+const currYear = '2019'
 
 
 export default function Dashboard(props) {
@@ -37,11 +38,17 @@ export default function Dashboard(props) {
     const [basicData, setBasicData] = useState({});
     const [chartData, setChartData] = useState([]);
 
-    const [dateValue, setDateValue] = useState(new Date().getFullYear().toString());
+
+    const [provinceValue, setProvinceValue] = useState(provinceData[0])
+
+    const [dateValue, setDateValue] = useState('2019-01');
     const [cities, setCities] = useState(cityData[provinceData[0]]);
     const [cityValue, setCityValue] = useState(cityData[provinceData[0]][0]);
-    const [radioValue, setRadioValue] = useState(1);
+    const [radioValue, setRadioValue] = useState(3);
     const [starValue, setStarValue] = useState(5);
+
+
+    const [activeKey, setActivekey] = useState(['1'])
 
 
     const onPanelChange = (value) => {
@@ -49,10 +56,10 @@ export default function Dashboard(props) {
         setDateValue(value);
         setPanelStatus(false);
     };
-    const [dateTemplate, setDateTemplate] = useState(<DatePicker mode="year"
-                                                        format='YYYY'
+    const [dateTemplate, setDateTemplate] = useState(<DatePicker mode="month"
+                                                        format='YYYY-MM'
                                                         onPanelChange={onPanelChange}
-                                                        value={new Date().getFullYear().toString()}
+                                                        value={'2019-01'}
 
                                                     />); 
     const [panelIsOpen, setPanelStatus] = useState(false);
@@ -60,9 +67,31 @@ export default function Dashboard(props) {
         
   
 
-    // useEffect(() => {
+    useEffect(() => {
+        let formValues = {};
+        formValues['city'] = '北京'
+        formValues['star'] = '5'
+        formValues['radio'] = 3
+        formValues['date'] = '2019-01'
 
-    // }, [])
+        axios.post('/api/hotel/dashboard/basicMetrics/', JSON.stringify(formValues), { headers:{
+            'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+            'Content-Type': 'application/json'
+        }}).then( res => {
+            // console.log(res)
+
+            const {data} = res;
+
+            console.log(data)
+
+            setBasicData(data);
+            setBasicLoading(false);
+        }).catch( err => {
+            console.error(err);
+            message.error('fail to get the basic metrics')
+        })
+
+    }, [])
 
 
 
@@ -85,6 +114,12 @@ export default function Dashboard(props) {
 
             
             formValues['city'] = fieldValue.city1.replace("市", "");
+
+            // console.log(fieldValue)
+            console.log(formValues['city'])
+            if (formValues['city'] == '辖区'){
+                formValues['city'] = fieldValue.province1.replace("市", "");
+            }
             
 
             formValues['star'] = fieldValue.star1;
@@ -102,7 +137,13 @@ export default function Dashboard(props) {
                 'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
                 'Content-Type': 'application/json'
             }}).then( res => {
-                console.log(res)
+                // console.log(res)
+
+                const {data} = res;
+
+                console.log(data)
+
+                setBasicData(data);
                 setBasicLoading(false);
             }).catch( err => {
                 console.error(err);
@@ -161,7 +202,10 @@ export default function Dashboard(props) {
         // })
     }
 
-    const handleFormReset = () => {
+    const handleFormReset = (e) => {
+        
+
+        setBasicData({totel_hotel_num: 0, adr: 0, chain:0, vacancy: 0, yoy: 0, totel_room_num: 0, yoy_hotel_num:0, yoy_room_num:0})
 
     }
 
@@ -195,12 +239,20 @@ export default function Dashboard(props) {
         <Option key='5'>5</Option>,
     ];
 
+    const handleChange = (key) => {
+        // console.log(key)
+        setActivekey(key)
+
+
+        
+    }
+
     return (
 
         <Content style={{ padding:'0 50px' }}>
       
 
-                <Collapse defaultActiveKey={['1']}>
+                <Collapse activeKey={activeKey} onChange={handleChange}>
                     <Panel key='1' header={<FormattedMessage id="app.dashboard.basic-metric" defaultMessage="基本指标"/>}>
                         <Form 
                             form={form} 
@@ -216,7 +268,7 @@ export default function Dashboard(props) {
                                         message: <FormattedMessage id="form.province.placeholder"/>
                                     }]
                                 }
-                                initialValue={provinceData[0]}
+                                initialValue={provinceValue}
                                 // onFieldsChange={onProvinceChange}
                             >
                                 <Select

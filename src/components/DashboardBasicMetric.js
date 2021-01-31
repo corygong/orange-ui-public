@@ -121,6 +121,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
              <Col style={{...colStyles}}>
                 <ChartCard
                     bordered={true}
+                    loading={loading}
                     title={
                         <FormattedMessage
                             id="app.dashboard.vancancy"
@@ -154,6 +155,7 @@ const DashboardBasicMetric = memo(({loading, data}) => (
             <Col style={{...colStyles}}>
                 <ChartCard
                     bordered={true}
+                    loading={loading}
                     title={
                         <FormattedMessage
                             id="app.dashboard.ravpar"

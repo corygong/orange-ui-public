@@ -24,8 +24,11 @@ NoDataToDisplay(Highcharts)
 
 
 export default function DashboardChart(props) {
+
     const [form] = Form.useForm();
 
+    
+    const [provinceValue, setProvinceValue] = useState(provinceData[0])
     const [cities, setCities] = useState(cityData[provinceData[0]]);
     const [cityValue, setCityValue] = useState(cityData[provinceData[0]][0]);
 
@@ -41,7 +44,7 @@ export default function DashboardChart(props) {
     const [starValue, setStarValue] = useState(5);
 
     const [chartTitle, setChartTitle] = useState('');
-    const [ isLoading, setIsLoading] = useState(true);
+    const [ isLoading, setIsLoading] = useState(false);
 
 
     const onPanelChange = (value) => {
@@ -65,7 +68,10 @@ export default function DashboardChart(props) {
     useEffect(() => {
         let formValus = {}
         formValus['date'] = dateValue;
-        formValus['city'] = cityValue;
+        formValus['city'] = cityValue.replace('市',"");
+    
+
+        
         formValus['district'] = areaValue;
         formValus['star'] = starValue;
         formValus['radio'] = radioValue;
@@ -108,6 +114,8 @@ export default function DashboardChart(props) {
 
 
     const onProvinceChange = (value) => {
+
+        console.log(value)
         form.setFieldsValue({
             city: cityData[value][0],
             area: areaData[cityData[value][0]][0]
@@ -166,10 +174,11 @@ export default function DashboardChart(props) {
 
     }
     const onSubmitHandler = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // const {dispatch, form, metric, tag} = this.props;
-        form.validateFields((err, fieldValue) => {
-            if (err) return;
+        form.validateFields().then(fieldValue => {
+
+     
 
 
             console.log(fieldValue)
@@ -181,7 +190,11 @@ export default function DashboardChart(props) {
             }
 
 
-            formValues['city'] = fieldValue.city;
+            formValues['city'] = fieldValue.city.replace("市","");
+
+            if(formValues['city'] == "辖区") {
+                formValues['city'] = fieldValue.province.replace("市", "");
+            }
             formValues['district'] = fieldValue.area;
             formValues['star'] = fieldValue.star;
             formValues['date'] = date;
@@ -208,10 +221,22 @@ export default function DashboardChart(props) {
             //     isLoading: true
             // })
 
-            axios.post('', formValues).then( res => {
+            axios.post('/api/hotel/dashboard/hotelAnalysis/', JSON.stringify(formValues), { headers:{
+                'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+                'Content-Type': 'application/json'
+            }}).then( res => {
+                // console.log(res)
 
-            }).catch(err => {
-                message.error('fail to get hotel analysis');
+                const {data} = res;
+
+                console.log(data)
+
+                setChartData(data);
+                setIsLoading(false);
+            }).catch( err => {
+                console.error(err);
+                setIsLoading(false);
+                message.error('fail to get hotel analysis')
             })
             // dispatch({
             //     type: 'chart/fetchHotelAnalysis',
@@ -247,7 +272,10 @@ export default function DashboardChart(props) {
     ];
     return (
         <div>
-            <Form layout="inline" onFinish={onSubmitHandler}>
+            <Form 
+                form={form} 
+                layout="inline" 
+                onFinish={onSubmitHandler}>
 
                 <Form.Item 
                     name='province' 
@@ -256,11 +284,12 @@ export default function DashboardChart(props) {
                         required: true,
                         message: <FormattedMessage id="form.province.placeholder"/>
                     }]}
-                    initialValue={provinceData[0]}
-                    onChange={onProvinceChange}
+                    initialValue={provinceValue}
+                    
                 >
                     
                         <Select
+                        onChange={onProvinceChange}
                         >
                             {provinceData.map(province => <Option
                                 key={province}>{province}</Option>)}
@@ -276,11 +305,12 @@ export default function DashboardChart(props) {
 
                     }]}
                     initialValue={cityValue}
-                    onChange={onCityChange}
+                    
                 
                 
                 >
                         <Select
+                        onChange={onCityChange}
                         >
                             {cities.map(city => <Option key={city}>{city}</Option>)}
 
@@ -295,10 +325,11 @@ export default function DashboardChart(props) {
                         message: <FormattedMessage id="form.area.placeholder"/>
                     }]}
                     initialValue={areaValue}
-                    onChange={onAreaChange}
+                    
                 >
                     
                         <Select
+                        onChange={onAreaChange}
                             style={{width: '100%'}}
 
                         >
