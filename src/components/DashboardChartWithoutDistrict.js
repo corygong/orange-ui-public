@@ -24,6 +24,7 @@ NoDataToDisplay(Highcharts)
 export default function DashboardChartWithoutDistrict(props) {
 
     const [form] = Form.useForm();
+    const [provinceValue, setProvinceValue] = useState(provinceData[0])
     const [cities, setCities] = useState(cityData[provinceData[0]]);
     const [cityValue, setCityValue] = useState(cityData[provinceData[0]][0]);
     const [chartData, setChartData] = useState({});
@@ -56,14 +57,14 @@ export default function DashboardChartWithoutDistrict(props) {
 
         const { metric, tag } = props;
 
-        let formValus = {}
-        formValus['date'] = dateValue;
-        formValus['city'] = cityValue;
+        let formValues = {}
+        formValues['date'] = dateValue;
+        formValues['city'] = cityValue;
     
-        formValus['star'] = starValue;
-        formValus['radio'] = radioValue;
-        formValus['tag'] = tag;
-        formValus['metric'] = metric;
+        formValues['star'] = starValue;
+        formValues['radio'] = radioValue;
+        formValues['tag'] = tag;
+        formValues['metric'] = metric;
         let radioChartTitle = "", tagChartTitle = ""
         if (radioValue == '1') {
             radioChartTitle = dateValue + "年度"
@@ -78,13 +79,21 @@ export default function DashboardChartWithoutDistrict(props) {
         }
     
     
-        axios.post('', formValus).then( res => {
-    
-    
-            console.log(res);
-    
+        axios.post('/api/hotel/dashboard/hotelAnalysis/', JSON.stringify(formValues), { headers:{
+            'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+            'Content-Type': 'application/json'
+        }}).then( res => {
+            // console.log(res)
+
+            const {data} = res;
+
+
+            setChartData(data);
+            setIsLoading(false);
         }).catch( err => {
-            message.error('fail to get hotal analysis');
+            console.error(err);
+            setIsLoading(false);
+            message.error('fail to get hotel analysis')
         })
     }, [])
 
@@ -149,7 +158,7 @@ export default function DashboardChartWithoutDistrict(props) {
 
     }
     const onSubmitHandler = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
 
         form.validateFields().then( fieldValue => {
 
@@ -162,7 +171,11 @@ export default function DashboardChartWithoutDistrict(props) {
             }
 
 
-            formValues['city'] = fieldValue.city;
+            formValues['city'] = fieldValue.city.replace("市","");
+
+            if(formValues['city'] == "辖区") {
+                formValues['city'] = fieldValue.province.replace("市", "");
+            }
             // formValues['district'] = fieldValue.area;
             formValues['star'] = fieldValue.star;
             formValues['date'] = date;
@@ -189,10 +202,22 @@ export default function DashboardChartWithoutDistrict(props) {
 
             setIsLoading(true);
 
-            axios.post('', formValues).then( res => {
+            axios.post('/api/hotel/dashboard/hotelAnalysis/', JSON.stringify(formValues), { headers:{
+                'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+                'Content-Type': 'application/json'
+            }}).then( res => {
+                // console.log(res)
 
+                const {data} = res;
+
+                console.log(data)
+
+                setChartData(data);
+                setIsLoading(false);
+                setChartTitle(formValues['city'] +"各区域" + radioChartTitle + fieldValue.star + "星级酒店表(" + tagChartTitle + ")")
             }).catch( err => {
                 console.error(err);
+                setIsLoading(false);
                 message.error('fail to get hotel analysis')
             })
         }).catch( err => {
@@ -239,7 +264,10 @@ export default function DashboardChartWithoutDistrict(props) {
     ];
     return (
         <div>
-            <Form layout="inline" onSubmit={onSubmitHandler}>
+            <Form 
+            form={form} 
+            layout="inline" 
+            onFinish={onSubmitHandler}>
 
                 <Form.Item 
                     name='province'
@@ -248,11 +276,12 @@ export default function DashboardChartWithoutDistrict(props) {
                         required: true,
                         message: <FormattedMessage id="form.province.placeholder"/>
                     }]}
-                    initialValue= {provinceData[0]}
-                    onChange= {onProvinceChange}
+                    initialValue= {provinceValue}
+                    
 
                 >
                         <Select
+                        onChange= {onProvinceChange}
                         >
                             {provinceData.map(province => <Option
                                 key={province}>{province}</Option>)}
@@ -261,17 +290,18 @@ export default function DashboardChartWithoutDistrict(props) {
                 </Form.Item>
                 <Form.Item 
                     name='city'
-                    label={<FormattedMessage id="form.city.label"/>}
+                    label={<FormattedMessage id="form.city.label"  defaultMessage="市"/>}
                     rules={[{
                         required: true,
-                        message: <FormattedMessage id="form.city.placeholder" defaultMessage="市"/>,
+                        message: <FormattedMessage id="form.city.placeholder"/>,
 
                     }]}
                     initialValue={cityValue}
-                    onChange={onCityChange}
+                    
                 >
                     
                         <Select
+                        onChange={onCityChange}
                         >
                             {cities.map(city => <Option key={city}>{city}</Option>)}
 

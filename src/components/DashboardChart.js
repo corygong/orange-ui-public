@@ -233,6 +233,7 @@ export default function DashboardChart(props) {
 
                 setChartData(data);
                 setIsLoading(false);
+                setChartTitle(formValues['city'] + formValues['district'] + radioChartTitle + fieldValue.star + "星级酒店" + "Top10表(" + tagChartTitle + ")");
             }).catch( err => {
                 console.error(err);
                 setIsLoading(false);

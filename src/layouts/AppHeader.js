@@ -50,10 +50,10 @@ export default function AppHeader(props) {
             </div>
             <Menu style={{background:'#0f2741'}} mode='horizontal'>
 
-                <Menu.Item key='1'>
+                {/* <Menu.Item key='1'>
     
                     <Link style={{color:'#fff'}} to ='/statistics'>Data & Charts</Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 {/* <Menu.Item key='2'>
                     <Link style={{color:'#fff'}} to ='/reports'>Reports</Link>
                 </Menu.Item>

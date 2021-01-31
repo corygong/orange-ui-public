@@ -63,23 +63,6 @@ export default function Statistics(props) {
     const [legendTitleZ, setLegendTitleZ] = useState(null);
 
 
-
-
-
-
-
-
-
-    // if (stat_name == "") {
-    //     return (
-    //         <Result
-    //             status="404"
-    //             title="404"
-    //             subTitle="Sorry, the page you visited does not exist."
-    //             extra={<Button type="primary">Back Home</Button>}
-    //         />
-    //     )
-    // }
     const {match: {params}} = props;
 
     const {stat_name} = params;
@@ -90,11 +73,14 @@ export default function Statistics(props) {
         console.log(stat_name)
 
         axios.get('/api/statistics/info/' + stat_name,{ headers:{
-            'Authorization': 'jwt ' +  localStorage.getItem('currentJWT')
+            'Authorization': 'jwt ' +  localStorage.getItem('currentJWT'),
+            'Content-Type': 'application/json'
         }}).then( res => {
             setLoading(false);
 
             const {data} = res;
+
+            console.log(data)
 
             const {code} = data;
 
@@ -141,10 +127,7 @@ export default function Statistics(props) {
         }).catch( err => {
             message.error("Server Error!")
         })
-
-   
-     
-    }, [stat_name]);
+    }, []);
 
     
 
